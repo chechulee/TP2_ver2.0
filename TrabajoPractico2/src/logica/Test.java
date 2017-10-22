@@ -83,7 +83,7 @@ double peso;
        System.out.println("Costo Total =  $ " + solver.costoTotal());
 }
 
-	//}
+	
 	
 	public void dibujarArista(Coordinate v1, Coordinate v2){
 		ArrayList<Coordinate> coordenadas = new ArrayList<Coordinate>();

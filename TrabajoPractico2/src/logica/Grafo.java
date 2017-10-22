@@ -9,7 +9,7 @@ import java.util.Set;
 public class Grafo
 {
 	// Representamos el grafo por listas de vecinos
-	private ArrayList< HashSet<Integer> > _vecinos;
+	private ArrayList< HashSet<Integer> > vecinos;
 	int cantAristas;
 	int ciclos;
 	// auxiliares
@@ -20,10 +20,10 @@ public class Grafo
 	// El número de vértices queda fijado en el constructor
 	public Grafo(int cantidadDeVertices)
 	{
-		_vecinos = new ArrayList< HashSet<Integer> >(cantidadDeVertices);
+		vecinos = new ArrayList< HashSet<Integer> >(cantidadDeVertices);
 		ciclos = 0;
 		for(int i=0; i<cantidadDeVertices; ++i)
-			_vecinos.add(new HashSet<Integer>());
+			vecinos.add(new HashSet<Integer>());
 		cantAristas = 0;
 		marcados2 = new boolean [vertices()];
 	}
@@ -37,8 +37,8 @@ public class Grafo
 		alcanzablesDei.addAll(alcanzables(i));
 		alcanzablesDei.addAll(alcanzables(j));
 		
-		_vecinos.get(i).add(j);
-		_vecinos.get(j).add(i);
+		vecinos.get(i).add(j);
+		vecinos.get(j).add(i);
 		
 		cantAristas++;
 		
@@ -63,7 +63,7 @@ public class Grafo
 		verificarVertice(i, "consultar una arista");
 		verificarVertice(j, "consultar una arista");
 
-		return _vecinos.get(i).contains(j);
+		return vecinos.get(i).contains(j);
 	}
 
 	// Eliminación de una arista, en O(1)
@@ -72,8 +72,8 @@ public class Grafo
 		verificarVertice(i, "eliminar una arista");
 		verificarVertice(j, "eliminar una arista");
 
-		_vecinos.get(i).remove(j);
-		_vecinos.get(j).remove(i);
+		vecinos.get(i).remove(j);
+		vecinos.get(j).remove(i);
 	}
 	
 	// Grado de un vértice (cantidad de vecinos), en O(1)
@@ -88,7 +88,7 @@ public class Grafo
 	public Set<Integer> vecinos(int i)
 	{
 		verificarVertice(i, "consultar los vecinos");
-		return (Set<Integer>) _vecinos.get(i).clone();
+		return (Set<Integer>) vecinos.get(i).clone();
 	}
 		
 	// Lanza una excepción si el índice v está fuera de rango para los vértices
@@ -108,7 +108,7 @@ public class Grafo
 	// Cantidad de vértices
 	public int vertices()
 	{
-		return _vecinos.size();
+		return vecinos.size();
 	}
 	
 	// nuevo
