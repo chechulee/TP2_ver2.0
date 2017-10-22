@@ -54,7 +54,7 @@ public class Test {
 		frame.setContentPane(miMapa);
 		Prueba prueba = new Prueba();
 		DatosLocalidad d ;
-		ArrayList<Coordinate> coordenadas = new ArrayList<Coordinate>();
+		
 		
 
 		for (int i = 0 ; i < prueba.conexiones.size(); i++){
@@ -69,28 +69,30 @@ System.out.println(solver.arbolGM.cantAristas);
 Coordinate coordV1,coordV2;
 double peso;
 
-
-    //   for (Integer i = 0 ; i < 10; i++){
-           for(Integer j = 0 ; j <  arbol.aristasConPesos.size(); j ++){
-        	 int v1 = arbol.aristasConPesos.get(j).getArista().getx();
-	        int v2 = arbol.aristasConPesos.get(j).getArista().gety();
-          coordV1 = solver.obtenerCoordenada(v1);
-          coordV2 = solver.obtenerCoordenada(v2);
-          peso = Math.round(arbol.aristasConPesos.get(j).getPeso());
-          coordenadas.add(coordV1);
-			coordenadas.add(coordV2);
-			dibujarArista(coordenadas);
-	    	System.out.println(solver.obtenerLocalidad(v1) + " con "+ solver.obtenerLocalidad(v2) + v1 + "---" + v2 + "  Peso:   " + peso);
-	     	
-	
-
-		}
-      // }
+           for(Integer j = 0 ; j < arbol.aristasConPesos.size() ; j ++){
+		        	 int v1 = arbol.aristasConPesos.get(j).getArista().getx();
+			        int v2 = arbol.aristasConPesos.get(j).getArista().gety();
+		          coordV1 = solver.obtenerCoordenada(v1);
+		          coordV2 = solver.obtenerCoordenada(v2);
+		          peso = Math.round(arbol.aristasConPesos.get(j).getPeso());
+		          dibujarArista(coordV1, coordV2);
+		          System.out.println(solver.obtenerLocalidad(v1) + " con "+ solver.obtenerLocalidad(v2) + v1 + "---" + v2 + "  Peso:   " + peso);
+			 
+           }
+      
        System.out.println("Costo Total =  $ " + solver.costoTotal());
 }
 
 	//}
-	 public void dibujarArista(ArrayList<Coordinate> c){
+	
+	public void dibujarArista(Coordinate v1, Coordinate v2){
+		ArrayList<Coordinate> coordenadas = new ArrayList<Coordinate>();
+		coordenadas.add(v1);
+		coordenadas.add(v2);
+		coordenadas.add(v1);
+		dibujar(coordenadas);
+	}
+	 private void dibujar(ArrayList<Coordinate> c){
 		MapPolygon pol = new MapPolygonImpl(c);
 		miMapa.addMapPolygon(pol);
 
