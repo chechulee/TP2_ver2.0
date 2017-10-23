@@ -74,10 +74,63 @@ public class AGM {
 	
 }
 	
-public boolean ifChulo(){
-	boolean verdadero = true;
-	return verdadero  ?  true: false;
-}
+
+	public AGM Primalito (){
+		
+		Double menorPeso;
+		ArrayList<PesoArista> auxPesoaristas= new ArrayList<PesoArista>(); 
+		ArrayList<PesoArista> PrimPesoArista= new ArrayList<PesoArista>();
+		auxPesoaristas=this.aristasConPesos;
+		auxPesoaristas.sort(null);
+		int primCantidadVertices=this.arbolGM.vertices();
+		AGM primalito = new AGM(auxPesoaristas, primCantidadVertices);
+		int vertice1, vertice2;
+		int i=1;	
+	    menorPeso = auxPesoaristas.get(0).getPeso();
+	    vertice1 = auxPesoaristas.get(0).aristas.a;
+	    vertice2 = auxPesoaristas.get(0).aristas.b;
+		PesoArista primero=new PesoArista(vertice1,vertice2,menorPeso);
+	    PrimPesoArista.add(primero);
+		primalito.arbolGM.agregarArista(vertice1, vertice2);
+		auxPesoaristas.remove(0);
+				while (i<primCantidadVertices-1)
+				{
+				for(int j=0;j<this.arbolGM.vertices();j++)
+				 {
+					for(int k=0;k<auxPesoaristas.size();k++)
+					{
+					 if ((this.arbolGM.alcanzables(PrimPesoArista.get(j).aristas.a).contains(auxPesoaristas.get(0).aristas.a ) || this.arbolGM.alcanzables(PrimPesoArista.get(j).aristas.a).contains(auxPesoaristas.get(0).aristas.b)) )
+						 {	 
+						 PesoArista aux= new PesoArista(auxPesoaristas.get(0).aristas.a,auxPesoaristas.get(0).aristas.b,auxPesoaristas.get(0).peso);
+	              		   PrimPesoArista.add(aux);
+	              		   primalito.arbolGM.agregarArista(auxPesoaristas.get(0).aristas.a,auxPesoaristas.get(0).aristas.b);
+					     }
+					else if((this.arbolGM.alcanzables(PrimPesoArista.get(j).aristas.b).contains(auxPesoaristas.get(0).aristas.a ) || this.arbolGM.alcanzables(PrimPesoArista.get(0).aristas.b).contains((auxPesoaristas.get(0).aristas.b))))
+                         {
+						   PesoArista aux= new PesoArista(auxPesoaristas.get(0).aristas.a ,auxPesoaristas.get(0).aristas.b,auxPesoaristas.get(0).peso);
+              		       PrimPesoArista.add(aux);
+              		       primalito.arbolGM.agregarArista(auxPesoaristas.get(0).aristas.a,auxPesoaristas.get(0).aristas.b);             		
+                         }	 
+                	   if(primalito.arbolGM.ciclos!=0 || PrimPesoArista.size()!=(primalito.arbolGM.alcanzables(PrimPesoArista.get(0).aristas.a)).size()-1)
+                	   {
+                		   System.out.println(primalito.arbolGM.alcanzables(PrimPesoArista.get(0).aristas.a));
+                		   PrimPesoArista.remove(PrimPesoArista.size()-1);
+                		   primalito.arbolGM.eliminarArista(auxPesoaristas.get(0).aristas.a,auxPesoaristas.get(0).aristas.b);
+                		   primalito.arbolGM.cantAristas--;
+                		   if(primalito.arbolGM.ciclos>0)
+                			   primalito.arbolGM.ciclos--;
+
+                	   }
+               		   auxPesoaristas.remove(0);            	   
+				     }
+			     }		
+		              i++;
+                }
+		    primalito.aristasConPesos.addAll(PrimPesoArista);
+		    return primalito;
+	}
+	
+
 	public static void main(String[] args) {
 		ArrayList<PesoArista> PARISTA= new ArrayList<PesoArista> ();
 	
@@ -134,12 +187,12 @@ public boolean ifChulo(){
 	
 		
 		
-//		System.out.println(arbol.arbolGM);
-//		System.out.println(arbol.aristasConPesos);
-//		System.out.println(arbol.arbolGM.ciclos);
-//		System.out.println(arbol.kruskal());
-//		System.out.println(arbol.aristasConPesos);
-//		
+	System.out.println(arbol.arbolGM);
+	System.out.println(arbol.aristasConPesos);
+	System.out.println(arbol.arbolGM.ciclos);
+	System.out.println(arbol.Primalito());		
+	System.out.println(arbol.aristasConPesos);
+		
 	}
 
 	public void agregarArista(int i, int j) {
