@@ -76,7 +76,7 @@ public class Test {
 			agregarLocalidadMapa(d.getLat(),d.getLon(), d.getLocalidad());
 		}
 		
-		Solver solver = new Solver(prueba.conexiones);
+		Solver solver = new Solver(prueba.conexiones, Costos costo);
 		
 		if (algoritmo =="kruskal"){
 			AGM arbolKruskal  = solver.arbolGM.kruskal();

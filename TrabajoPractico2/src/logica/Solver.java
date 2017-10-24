@@ -7,13 +7,14 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 public class Solver {
 	public ArrayList<DatosLocalidad> conexiones;
 	public ArrayList<PesoArista>  aristasConPesos;
+	public Costos costo;
 	
 	public AGM arbolGM;
 	int cantAristas;
 	
 
 	
-	public Solver(ArrayList c){
+	public Solver(ArrayList c, Costos costo){
 		this.conexiones = c;
 		int cantVertices = c.size();
 		
@@ -44,20 +45,22 @@ public class Solver {
 	   }
 	}
 
-	public Double calcularPeso(Integer vertice1, Integer vertice2){
+	public Double calcularPeso(Integer arista1, Integer arista2){
 		Double peso, costoXKM,costoDistintaProv,costoMasLimiteKM, limiteKM, KM;
-		costoXKM = 2.0;
-		costoMasLimiteKM = 3.0;
-		costoDistintaProv = 5.0;
-		limiteKM = 200.0;
-		KM = calcularDistancia(vertice1,vertice2);
-		peso =  KM * costoXKM; 
+
+		costoXKM = costo.getCostosDosCiudades();   
+		costoDistintaProv = costo.getCostoEntreProvincias(); 
+		costoMasLimiteKM = costo.getCostoMas200Km();   
 		
-		if(obtenerLocalidad(vertice1) != obtenerLocalidad(vertice2)) peso = peso + costoDistintaProv;
+		limiteKM = 200.0;
+		KM = calcularDistancia(arista1,arista2);
+		peso =  KM * costoXKM;
+		if(obtenerLocalidad(arista1) != obtenerLocalidad(arista2)) peso = peso + costoDistintaProv;
 		if(KM > limiteKM) peso = peso + costoMasLimiteKM;
 				return peso;
 		
 	}
+
 	public double calcularDistancia(Integer vertice1 ,Integer vertice2){
 		Coordinate coordenada_i, coordenada_j;
 		double distanciaKM;
@@ -78,8 +81,8 @@ public class Solver {
 	
 	
 	private double distanciaCoord(double lat1, double lng1, double lat2, double lng2) {
-	//double radioTierra = 3958.75;//en millas  
-	double radioTierra = 6371;//en kilómetros  
+	//double radioTierra = 3958.75;//en millas  
+	double radioTierra = 6371;//en kilómetros  
 	double dLat = Math.toRadians(lat2 - lat1);
 	double dLng = Math.toRadians(lng2 - lng1); 
 	double sindLat = Math.sin(dLat / 2);
